@@ -28,11 +28,11 @@ public:
 	{
 		// run through the list, displaying each node that is not the head node
 	}
-	void insertNode()
+	void insertNode(double number)
 	{
 		// insert a node
 	}
-	void deleteNode()
+	void deleteNode(double number)	
 	{
 		// delete a node
 	}
