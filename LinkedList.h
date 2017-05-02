@@ -17,7 +17,7 @@ public:
 	T value; // Node value
 	ListNode<T> *next; // Pointer to the next node
 
-					   // Constructor
+	// Constructor
 	ListNode(T nodeValue)
 	{
 		value = nodeValue;
@@ -34,6 +34,7 @@ class LinkedList
 {
 private:
 	ListNode<T> *head; // List head pointer
+	int listCount = 0;
 
 public:
 	// Constructor
@@ -50,15 +51,67 @@ public:
 	void insertNode(T);
 	void deleteNode(T);
 	void displayList() const;
-	void insertNodeAnywhere()
+	void insertNodeAnywhere(T newValue, int location)
 	{
 		// insert node at any location by sending the location as an argument, along with sending the value to insert as an argument also
+		if (location < 1)
+			location = 1;
+		ListNode<T> *newNode; // To point to a new node
+		ListNode<T> *nodePtr; // To move through the list
+		ListNode<T> *previousNode;
+
+		// Allocate a new node and store newValue there.
+		newNode = new ListNode<T>(newValue);
+
+		// If there are no nodes in the list make newNode the first node.
+		if (!head)
+			head = newNode;
+
+		else // Otherwise, insert newNode at the desired location.
+		{
+			// Initialize nodePtr to head of list.
+			nodePtr = head;
+			previousNode = nullptr;
+			if (location > (listCount + 1))
+				location = listCount + 1;
+
+			if (location == 1)  // problem here, the old first item location is lost
+			{
+				head = newNode;
+				newNode->next = nodePtr->next;
+				//head->next = newNode;
+			}
+		
+			else
+			{
+
+				for (int count = 0; count < (location - 1); count++) // keep pushing nodePtr until it gets the to location
+				{
+
+					previousNode = nodePtr;
+					nodePtr = nodePtr->next;
+				}
+
+				previousNode->next = newNode;
+				newNode->next = nodePtr;
+			}
+			//nodePtr = nodePtr->next;
+
+			// Insert newNode as the last node.
+			//nodePtr->next = newNode;
+		}
+		listCount++;
 	}
 	void searchNodes()
 	{
 		// search the nodes for the value sent
 		// if the value is found, return the position and maybe cout the value
 		// if the value was not found, return -1, simalar to a binary search
+	}
+	int getListCount()
+	{
+		// return the number of items in the list
+		return listCount;
 	}
 
 };
@@ -76,7 +129,7 @@ void LinkedList<T>::appendNode(T newValue)
 	ListNode<T> *newNode; // To point to a new node
 	ListNode<T> *nodePtr; // To move through the list
 
-						  // Allocate a new node and store newValue there.
+	// Allocate a new node and store newValue there.
 	newNode = new ListNode<T>(newValue);
 
 	// If there are no nodes in the list
@@ -95,6 +148,7 @@ void LinkedList<T>::appendNode(T newValue)
 		// Insert newNode as the last node.
 		nodePtr->next = newNode;
 	}
+	listCount++;
 }
 
 //***************************************************
@@ -107,7 +161,7 @@ void LinkedList<T>::displayList() const
 {
 	ListNode<T> *nodePtr; // To move through the list
 
-						  // Position nodePtr at the head of the list.
+	// Position nodePtr at the head of the list.
 	nodePtr = head;
 
 	// While nodePtr points to a node, traverse
@@ -133,7 +187,7 @@ void LinkedList<T>::insertNode(T newValue)
 	ListNode<T> *newNode; // A new node
 	ListNode<T> *nodePtr; // To traverse the list
 	ListNode<T> *previousNode = nullptr; // The previous node
-										 // Allocate a new node and store newValue there.
+	// Allocate a new node and store newValue there.
 	newNode = new ListNode<T>(newValue);
 
 	// If there are no nodes in the list
@@ -171,6 +225,7 @@ void LinkedList<T>::insertNode(T newValue)
 			newNode->next = nodePtr;
 		}
 	}
+	listCount++;
 }
 
 //******************************************************
@@ -182,11 +237,11 @@ void LinkedList<T>::insertNode(T newValue)
 template <class T>
 void LinkedList<T>::deleteNode(T searchValue)
 {
-	cout << "in deleteNode().\n";
+	//cout << "in deleteNode().\n";
 	ListNode<T> *nodePtr; // To traverse the list
 	ListNode<T> *previousNode; // To point to the previous node
-							   // If the list is empty, do nothing.
-	cout << "finished making two pointers.\n";
+	// If the list is empty, do nothing.
+	//cout << "finished making two pointers.\n";
 	if (!head)
 		return;
 
@@ -194,9 +249,9 @@ void LinkedList<T>::deleteNode(T searchValue)
 	if (head->value == searchValue)
 	{
 		nodePtr = head->next;
-		cout << "deleteing node (node at the beginning)...\n";
+		//cout << "deleteing node (node at the beginning)...\n";
 		delete head;
-		cout << "all done.\n";
+		//cout << "all done.\n";
 		head = nodePtr;
 	}
 	else
@@ -217,20 +272,21 @@ void LinkedList<T>::deleteNode(T searchValue)
 		if (nodePtr->next != nullptr)
 		{
 			previousNode->next = nodePtr->next;
-			cout << "deleteing node (node not at the end)...\n";
+			//cout << "deleteing node (node not at the end)...\n";
 			delete nodePtr;
-			cout << "all done.\n";
+			//cout << "all done.\n";
 		}
 		// if the last item in the list is the desired value, set previousNode-> to null and delete nodePtr
 		else if (nodePtr->value == searchValue && nodePtr->next == nullptr)
 		{
 			previousNode->next = nullptr;
-			cout << "deleteing node (node at the end)...\n";
+			//cout << "deleteing node (node at the end)...\n";
 			delete nodePtr;
-			cout << "all done.\n";
+			//cout << "all done.\n";
 		}
 	}
-	cout << "closing deletNode() ...\n";
+	listCount--;
+	//cout << "closing deletNode() ...\n";
 }
 
 //**************************************************
@@ -244,7 +300,7 @@ LinkedList<T>::~LinkedList()
 	ListNode<T> *nodePtr; // To traverse the list
 	ListNode<T> *nextNode; // To point to the next node
 
-						   // Position nodePtr at the head of the list.
+	// Position nodePtr at the head of the list.
 	nodePtr = head;
 
 	// While nodePtr is not at the end of the list...

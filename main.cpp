@@ -4,6 +4,7 @@
 #include "LinkedList.h"
 #include "Currency.h"
 #include"Dollars.h"
+//#include"StackADT.h"
 
 using namespace std;
 
@@ -13,11 +14,11 @@ int main()
 	init.copyfmt(cout);  // this saves the default cout format style so cout formatting can be reset easily
 
 	// Define a LinkedList object.
-	cout << "creating currency object linked list head node ...\n";
+	//cout << "creating currency object linked list head node ...\n";
 	LinkedList<Currency> list;
 
 	// Define some Currency objects.
-	cout << "creating currency objects one through five ... \n";
+	//cout << "creating currency objects one through five ... \n";
 	Currency currency1("Dollar", "Cent", 10, 15);
 	Currency currency2("Euro", "Pence", 12, 4);
 	Currency currency3("Peso", "Cento", 11, 41);
@@ -28,39 +29,39 @@ int main()
 	currencyPtr->setFractionalValue(15);  //               \/
 	Currency *currencyPtr2 = new Dollars(21, 56);
 
-	cout << "creating doubles linked list head node ...\n";
+	//cout << "creating doubles linked list head node ...\n";
 	LinkedList<double> numbersList;
 
 	double dd1 = 1;
 	double dd2 = 2;
 	double dd3 = 3;
 
-	cout << "creating string linked list head node ...\n";
+	//cout << "creating string linked list head node ...\n";
 	LinkedList<string> stringList;
 
 	string str1 = "one";
 	string str2 = "two";
 	string str3 = "three";
-												 
+
 	// Store the Currency objects in the list.
-	cout << "appending nodes to currency linked list ...\n";
+	//cout << "appending nodes to currency linked list ...\n";
 	list.appendNode(currency1);
-	list.appendNode(currency2); 
-	list.appendNode(currency3); 
+	list.appendNode(currency2);
+	list.appendNode(currency3);
 	list.appendNode(*currencyPtr);  // clifford:  just trying some stuff out
 	list.appendNode(*currencyPtr2);
 
-	cout << "appeneding nodes to doubles linked list ...\n";
-	numbersList.appendNode(dd1);
+	//cout << "appeneding nodes to doubles linked list ...\n";
+	numbersList.appendNode(1);
 	numbersList.appendNode(dd2);
-	numbersList.appendNode(dd3);
+	numbersList.appendNode(3);
 
-	cout << "appending nodes to string linked list ...\n";
-	stringList.appendNode(str1);
+	//cout << "appending nodes to string linked list ...\n";
+	stringList.appendNode("one");
 	stringList.appendNode(str2);
-	stringList.appendNode(str3);
-	
-	
+	stringList.appendNode("three");
+
+
 	// Display the values in the list.
 	cout << "Here are the initial values:\n";
 	list.displayList();
@@ -79,23 +80,22 @@ int main()
 	// Delete the last node.
 	cout << "\nNow deleting the Ruble.\n";
 	list.deleteNode(currency4);
-	cout << "\nNow deleting the Dollar (21.56).\n";
+	cout << "Now deleting the Dollar (21.56).\n";
 	list.deleteNode(*currencyPtr2);
 
 	// Display the values in the list.
 	cout << "Here are the nodes left.\n";
 	list.displayList();
 
-	//cout.copyfmt(init);  // clifford:  just trying some stuff out
-
+	// clifford:  just trying some stuff out
+	//cout.copyfmt(init);
 	//cout << "\n\n---------------------------------------\n";  // clifford:  just trying some stuff out
+	//numbersList.insertNodeAnywhere(4.5, 2);
 	//numbersList.displayList();
+	//cout << "list has: " << list.getListCount();
 	//cout << "\n--------------------------\n";
 	//stringList.displayList();
 
-	//cout.copyfmt(init);  // clifford:  just trying some stuff out
-	//double xyz = 34;
-	//cout << endl << xyz;
 
 	cin.get();
 	return 0;
