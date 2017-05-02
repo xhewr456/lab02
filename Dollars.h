@@ -13,8 +13,16 @@ class Dollars : public Currency
 {
 public:
 	// constructor that uses constructor initialization list
-	Dollars(string w = "Dollars", string p = "Cents") :Currency(w, p)
+	Dollars() :Currency("Dollars", "Cents")
 	{
+	}
+	Dollars(int wholeValue, int partialValue) :Currency("Dollars", "Cents")
+	{
+		//string w = "Dollars"; 
+		//string p = "Cents";
+		//Currency::Currency(w, p);
+		Currency::setWholeValue(wholeValue);
+		Currency::setFractionalValue(partialValue);
 	}
 
 	// virtual destructor uses polymorphism to get called by the currency class pointers

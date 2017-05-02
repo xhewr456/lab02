@@ -1,140 +1,102 @@
-#include<iostream>
-#include<string>
-#include"Currency.h"
+// This program demonstrates the linked list template.
+#include <iostream>
+#include <string>
+#include "LinkedList.h"
+#include "Currency.h"
 #include"Dollars.h"
 
 using namespace std;
 
-class LinkedListNode
-{
-private:
-	// List head pointer
-	double value;
-	LinkedListNode *nextNodePointer;
-
-public:
-	// Constructor
-	LinkedListNode()
-	{
-		nextNodePointer = nullptr;
-	}
-
-	// Destructor
-	~LinkedListNode() 
-	{
-	}
-
-	// Linked list operations
-	void appendNode(double num)
-	{
-		LinkedListNode *newNode; // To point to a new node
-		LinkedListNode *nodePtr; // To move through the list
-
-		// Allocate a new node and store num there.
-		newNode = new LinkedListNode;
-		newNode->value = num;
-		newNode->nextNodePointer = nullptr;
-
-		// If there are no nodes in the list make newNode the first node
-		if (nextNodePointer == nullptr)
-			nextNodePointer = newNode;
-
-		// Otherwise, insert newNode at end
-		else
-		{
-			// Initialize nodePtr to head of list.
-			nodePtr = nextNodePointer;
-
-			// Find the last node in the list.
-			while (nodePtr->nextNodePointer != nullptr)
-				nodePtr = nodePtr->nextNodePointer;
-
-			// Insert newNode as the last node.
-			nodePtr->nextNodePointer = newNode;
-		}
-	}
-	void insertNode(double number)
-	{
-		LinkedListNode *newNode; // To point to a new node
-		LinkedListNode *nodePtr; // To move through the list
-		LinkedListNode *previousNode;  // the previous node
-
-		newNode = new LinkedListNode;
-		newNode->value = number;
-		newNode->nextNodePointer = nullptr;
-
-		// If there are no nodes in the list make newNode the first node
-		if (nextNodePointer == nullptr)
-			nextNodePointer = newNode;
-
-		// Otherwise, insert newNode
-		else
-		{
-			// position nodePtr at the head of list.
-			nodePtr = nextNodePointer;
-
-			// initialize previousNode to nullptr
-			previousNode = nullptr;
-
-			// skip all nodes whose value is less than number
-			while (nodePtr != nullptr && nodePtr->value < number)
-			{
-				previousNode = nodePtr;
-				nodePtr = nodePtr->nextNodePointer;
-			}
-
-			// if the new node is to be the first on the list, insert it before all other nodes
-			if (previousNode == nullptr)
-			{
-				nextNodePointer = nodePtr;
-				newNode->nextNodePointer = nodePtr;
-			}
-
-			// otherwise, insert after the previous node
-			else
-			{
-				previousNode->nextNodePointer = newNode;
-				newNode->nextNodePointer = nodePtr;
-			}
-
-		}
-	}
-	void deleteNode(double)
-	{
-
-	}
-	void displayList() const
-	{
-		LinkedListNode *nodePtr; // To move through the list
-
-		// Position nodePtr at the head of the list.
-		nodePtr = nextNodePointer;
-
-		// While nodePtr points to a node, traverse the list.
-		while (nodePtr != nullptr)
-		{
-			// Display the value in this node.
-			cout << nodePtr->value << endl;
-
-			// Move to the next node.
-			nodePtr = nodePtr->nextNodePointer;
-		}
-	}
-};
-
-
 int main()
 {
-	LinkedListNode linkedList;
-	linkedList.appendNode(2.5);
-	linkedList.appendNode(7.9);
-	linkedList.appendNode(12.6);
+	ios init(NULL);  // clifford:  just trying some stuff out
+	init.copyfmt(cout);  // this saves the default cout format style so cout formatting can be reset easily
 
-	// put a new node between the 7.9 and 12.6 node
-	linkedList.insertNode(10.5);
+	// Define a LinkedList object.
+	cout << "creating currency object linked list head node ...\n";
+	LinkedList<Currency> list;
 
-	linkedList.displayList();
-	cout << "press enter to exit the program ...";
+	// Define some Currency objects.
+	cout << "creating currency objects one through five ... \n";
+	Currency currency1("Dollar", "Cent", 10, 15);
+	Currency currency2("Euro", "Pence", 12, 4);
+	Currency currency3("Peso", "Cento", 11, 41);
+	//Currency currency5("Yuan", "Fen", 1001, 20);
+
+	Currency *currencyPtr = new Dollars;  // clifford:  just trying some stuff out
+	currencyPtr->setWholeValue(13);		  //               |
+	currencyPtr->setFractionalValue(15);  //               \/
+	Currency *currencyPtr2 = new Dollars(21, 56);
+
+	cout << "creating doubles linked list head node ...\n";
+	LinkedList<double> numbersList;
+
+	double dd1 = 1;
+	double dd2 = 2;
+	double dd3 = 3;
+
+	cout << "creating string linked list head node ...\n";
+	LinkedList<string> stringList;
+
+	string str1 = "one";
+	string str2 = "two";
+	string str3 = "three";
+												 
+	// Store the Currency objects in the list.
+	cout << "appending nodes to currency linked list ...\n";
+	list.appendNode(currency1);
+	list.appendNode(currency2); 
+	list.appendNode(currency3); 
+	list.appendNode(*currencyPtr);  // clifford:  just trying some stuff out
+	list.appendNode(*currencyPtr2);
+
+	cout << "appeneding nodes to doubles linked list ...\n";
+	numbersList.appendNode(dd1);
+	numbersList.appendNode(dd2);
+	numbersList.appendNode(dd3);
+
+	cout << "appending nodes to string linked list ...\n";
+	stringList.appendNode(str1);
+	stringList.appendNode(str2);
+	stringList.appendNode(str3);
+	
+	
+	// Display the values in the list.
+	cout << "Here are the initial values:\n";
+	list.displayList();
+	cout << endl;
+
+	// Insert another Currency object.
+	cout << "Now inserting the Ruble 4.02.\n";
+	Currency currency4("Ruble", "Kopecks", 4, 2);
+	list.insertNode(currency4);
+
+	// Display the values in the list.
+	cout << "Here are the nodes now.\n";
+	list.displayList();
+	cout << endl;
+
+	// Delete the last node.
+	cout << "\nNow deleting the Ruble.\n";
+	list.deleteNode(currency4);
+	cout << "\nNow deleting the Dollar (21.56).\n";
+	list.deleteNode(*currencyPtr2);
+
+	// Display the values in the list.
+	cout << "Here are the nodes left.\n";
+	list.displayList();
+
+	//cout.copyfmt(init);  // clifford:  just trying some stuff out
+
+	//cout << "\n\n---------------------------------------\n";  // clifford:  just trying some stuff out
+	//numbersList.displayList();
+	//cout << "\n--------------------------\n";
+	//stringList.displayList();
+
+	//cout.copyfmt(init);  // clifford:  just trying some stuff out
+	//double xyz = 34;
+	//cout << endl << xyz;
+
 	cin.get();
 	return 0;
 }
