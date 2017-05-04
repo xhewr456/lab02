@@ -17,7 +17,6 @@ public:
 	// constructor
 	Currency()
 	{
-		//cout << "this is currency default constructor.\n";
 		currencyName = "whole";
 		fractionalName = "partial";
 		int wholeValue = 0;
@@ -41,7 +40,6 @@ public:
 	Currency(string, string, int, int);
 	Currency(Currency &right)
 	{
-		//cout << "this is currency copy constructor.\n";
 		currencyName = right.getWholeName();
 		fractionalName = right.getFractionalName();
 		wholeValue = right.getWholeValue();
@@ -151,7 +149,6 @@ setFractionalValue(0);
 //Currency::Currency(string wholeName = "whole", string partialName = "partial", int wv = 0, int fv = 0)
 Currency::Currency(string wholeName, string partialName, int wv, int fv)
 {
-	//cout << "this is currency constructor with 4 args.\n";
 	setName(wholeName, partialName);
 	setWholeValue(wv);
 	setFractionalValue(fv);

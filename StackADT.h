@@ -4,49 +4,83 @@
 #include"LinkedList.h"
 using namespace std;
 
-//LinkedList;
 
 template <class T>
 class StackList :protected LinkedList<T>
 {
 private:
-	DataNode<T> *head;
+	//DataNode<T> *head;
 	DataNode<T> *topItem;  // pointer to the top of the stack, aka last item entered in
 
 public:
 	StackList()
 	{
 		//  constructor
-		head = nullptr;
-	}
-
-	~StackList()
-	{
-		// destructor needed
+		//head = nullptr;
+		topItem = nullptr;
 	}
 
 	void push(T value)
 	{
 		// put the new item on the top of the stack, aka add new node and make the new node the first item
-		// some where in here the new node that was added should be the new topItem
-		this->push_front(value);
+		// update topItem to point to the new item that was added
+
+		topItem = this->push_front(value);
 	}
 	void pop()
 	{
-		// remove and possible return the top item from the stack, aka the last item entered in
-		// two choices are to remove the last item entered (aka first item, the way we are implmenting the stack) and then return nothing
-		// or, send a referenced variable and store the last item in that variable (which is the example in the book), and then delete the last item entered
-		// that was the user has the value that was deleted, and can use the data as they wish.  The proffessor said the choice is up to us.
+		// checks for an empty stack first, if stack is empty print out the message and return
+		// else, print out the item on the top of the stack, delete the node, 
+		// and set the top pointer to the item that now sits on the top of the stack
+
+		if (!topItem)
+		{
+			cout << "error: the stack is empty";
+			return;
+		}
+		else
+		{
+			cout << topItem->value;
+			topItem = this->pop_front();
+		}
 	}
+
+	void emptyTheStack()
+	{
+		// delete all items in the list
+		this->emptyTheList();
+	}
+
+	DataNode<T> *top()
+	{
+		// return a reference to the item on the top of the stack, then the user can use data as desired
+		if (!topItem)
+		{
+			cout << "error: the stack is empty";
+			return nullptr;
+		}
+		else
+			return topItem;
+	}
+
+	int getStackSize()
+	{
+		// return the size of the stack as an <int>
+		return this->getListSize();
+	}
+
 	void displayStack()
 	{
+		// print out all items in the stack
 		this->displayList();
 	}
+
 	bool isEmpty()
 	{
-		// returns true if the stack has no items
-		if (this->getListSize == 0)
+		// return true if the stack is empty, else return false
+		if (!topItem)
 			return true;
+		
 		else
 			return false;
 	}
