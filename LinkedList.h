@@ -70,7 +70,7 @@ private:
 	DataNode<T> *pop_front()
 	{
 		// deletes the first item in the list, deleteNode() will update the head pointer to point to the new first item
-		// then returns a refernce to the update head pointer
+		// then returns a refernce to the updated head pointer
 
 		this->deleteNode(head->value);
 		return head;
