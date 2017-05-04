@@ -342,11 +342,9 @@ void LinkedList<T>::insertNode(T newValue)
 template <class T>
 void LinkedList<T>::deleteNode(T searchValue)
 {
-	//cout << "in deleteNode().\n";
 	DataNode<T> *nodePtr; // To traverse the list
 	DataNode<T> *previousNode; // To point to the previous node
 	// If the list is empty, do nothing.
-	//cout << "finished making two pointers.\n";
 	if (!head)
 		return;
 
@@ -354,9 +352,7 @@ void LinkedList<T>::deleteNode(T searchValue)
 	if (head->value == searchValue)
 	{
 		nodePtr = head->next;
-		//cout << "deleteing node (node at the beginning)...\n";
 		delete head;
-		//cout << "all done.\n";
 		head = nodePtr;
 	}
 	else
@@ -377,17 +373,13 @@ void LinkedList<T>::deleteNode(T searchValue)
 		if (nodePtr->next != nullptr)
 		{
 			previousNode->next = nodePtr->next;
-			//cout << "deleteing node (node not at the end)...\n";
 			delete nodePtr;
-			//cout << "all done.\n";
 		}
 		// if the last item in the list is the desired value, set previousNode-> to null and delete nodePtr
 		else if (nodePtr->value == searchValue && nodePtr->next == nullptr)
 		{
 			previousNode->next = nullptr;
-			//cout << "deleteing node (node at the end)...\n";
 			delete nodePtr;
-			//cout << "all done.\n";
 		}
 	}
 	// update the list size
