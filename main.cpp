@@ -4,7 +4,7 @@
 #include "LinkedList.h"
 #include "Currency.h"
 #include"Dollars.h"
-//#include"StackADT.h"
+#include"StackADT.h"
 
 using namespace std;
 
@@ -13,9 +13,31 @@ int main()
 	ios init(NULL);  // clifford:  just trying some stuff out
 	init.copyfmt(cout);  // this saves the default cout format style so cout formatting can be reset easily
 
-	// Define a LinkedList object.
-	//cout << "creating currency object linked list head node ...\n";
+						 // Define a LinkedList object.
+						 //cout << "creating currency object linked list head node ...\n";
 	LinkedList<Currency> list;
+
+
+
+	// stack adt 
+	cout << "stack ...\n";
+	StackList<int> stackTest;
+	cout << "pushing 3 onto the stack\n";
+	stackTest.push(3);
+	cout << "pushing 4 onto the stack\n";
+	stackTest.push(4);
+	cout << "stack contains:\n";
+	stackTest.displayStack();
+	cout << "pushing 8 onto the stack\n";
+	stackTest.push(8);
+	cout << "pushing 15 onto the stack\n";
+	stackTest.push(15);
+	cout << "stack contains:\n";
+	stackTest.displayStack();
+	cout << endl << endl;
+
+
+
 
 	// Define some Currency objects.
 	//cout << "creating currency objects one through five ... \n";
@@ -52,9 +74,9 @@ int main()
 	list.appendNode(*currencyPtr2);
 
 	//cout << "appeneding nodes to doubles linked list ...\n";
-	numbersList.appendNode(1);
+	numbersList.appendNode(dd1);
 	numbersList.appendNode(dd2);
-	numbersList.appendNode(3);
+	numbersList.appendNode(dd3);
 
 	//cout << "appending nodes to string linked list ...\n";
 	stringList.appendNode("one");
@@ -86,13 +108,24 @@ int main()
 	// Display the values in the list.
 	cout << "Here are the nodes left.\n";
 	list.displayList();
+	cout << "currency list has: " << list.getListSize() << " items" << endl;
 
 	// clifford:  just trying some stuff out
-	//cout.copyfmt(init);
-	//cout << "\n\n---------------------------------------\n";  // clifford:  just trying some stuff out
-	//numbersList.insertNodeAnywhere(4.5, 2);
-	//numbersList.displayList();
-	//cout << "list has: " << list.getListCount();
+	cout.copyfmt(init);
+	cout << "\n\n---------------------------------------\n";  // clifford:  just trying some stuff out
+	numbersList.insertNodeAtIndex(4.5, 1);
+	numbersList.push_front(7);
+	numbersList.displayList();
+	cout << "numberList2 ...\n";
+	LinkedList<int> numberList2;
+	numberList2.appendNode(1);
+	numberList2.insertNodeAtIndex(2, 1);
+	//numberList2.push_front(3);
+	numberList2.displayList();
+
+	cout << "searching <double> list for 6 returns: " << numbersList.searchNodes(6) << endl;
+	cout << "searching <double> list for 3 returns: " << numbersList.searchNodes(3) << endl;
+	cout << "searching <double> list for 4.5 returns: " << numbersList.searchNodes(4.5) << endl;
 	//cout << "\n--------------------------\n";
 	//stringList.displayList();
 
