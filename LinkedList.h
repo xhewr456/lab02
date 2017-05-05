@@ -16,14 +16,12 @@ class DataNode
 public:
 	T value; // Node value
 	DataNode<T> *next; // Pointer to the next node
-
-	// Constructor
+	// Default Constructor
 	DataNode()  // if no data is passed to the argument, turn this node into a size tracking node
 	{
 		value = 0;
 		next = nullptr;
 	}
-
 	// Constructor
 	DataNode(T nodeValue)
 	{
@@ -41,29 +39,28 @@ class LinkedList
 {
 private:
 	DataNode<T> *head;  // pointer to the first node
-	DataNode<int> ListSize;  // one way of tracking the list's size
-	//int listCount = 0;   // another way of tracking the list's size
+	DataNode<T> *last; // Pointer to the last node
 
-//protected:
+	//DataNode<int> ListSize;  // one way of tracking the list's size
+	int listCount = 0;   // another way of tracking the list's size
+
+protected:
 	DataNode<T> *push_front(T newValue)
 	{
 		// creates a new node, sets nodes value as the sent value
 		// sets new node as the first item in the list, and updates head and next node pointers
-
-
+		//--------
 		// insert a node at the front of the list
 		DataNode<T> *newNode; // To point to a new node
-
 		// Allocate a new node and store newValue there.
 		newNode = new DataNode<T>(newValue);
-
 		// point newNode->next to the old first node and make newNode the first node in the list
 		newNode->next = head;
 		head = newNode;
 
-		// update the list size
-		ListSize.value++;
-		//listCount++;
+
+		findLastNode();
+		listCount++;
 		return newNode;
 	}
 
@@ -71,24 +68,64 @@ private:
 	{
 		// deletes the first item in the list, deleteNode() will update the head pointer to point to the new first item
 		// then returns a refernce to the updated head pointer
-
 		this->deleteNode(head->value);
 		return head;
 	}
-
 public:
 	// Constructor
 	LinkedList()
 	{
 		head = nullptr;
+		last = nullptr;
 	}
-
 	// Destructor
 	~LinkedList();
-
 	// Linked list operations
-	void appendNode(T);
+	void push_end(T);
+	void pop_end();
+	void insertNodeByValue(T);
+	void deleteNode(T);
+	void displayList() const;
 
+
+	void findLastNode()
+	{
+		DataNode<T> *nodePtr;
+		DataNode<T> *nextPtr;
+		if (!head)
+		{
+			last = nullptr;
+			return;
+		}
+		else
+		{
+			nextPtr = nullptr;
+			nodePtr = nullptr;
+
+			// if the first node is the only node in the list, set last to the same as head
+			if (head->next == nullptr)
+			{
+				last = head;
+				return;
+			}
+			else
+			{
+				nodePtr = head;
+				nextPtr = nodePtr->next;
+				while (nodePtr->next != nullptr)
+				{
+					//This is how to not traverse the list
+					//nextPtr->next = nodePtr;
+					//nodePtr->next = nextPtr;
+					last = nodePtr;
+					nextPtr = nodePtr->next;
+					nodePtr = nextPtr;
+				}
+			}
+
+		}
+		//cout << last->value;
+	}
 	void emptyTheList()
 	{
 		int size = this->getListSize();
@@ -97,10 +134,6 @@ public:
 			this->deleteNode(head->value);
 		}
 	}
-
-	void insertNode(T);
-	void deleteNode(T);
-	void displayList() const;
 
 	void insertNodeAtIndex(T newValue, int location)
 	{
@@ -114,8 +147,10 @@ public:
 			location = 1;
 		}
 		else if (location >(listCount + 1))
+			//else if (location >(listSize.value + 1))
 		{
 			location = (listCount + 1);
+			//location = (listSize.value + 1);
 		}
 
 		DataNode<T> *newNode; // To point to a new node
@@ -158,8 +193,8 @@ public:
 			}
 		}
 		// update list count 
-		ListSize.value++;
-		//listCount++;
+		//ListSize.value++;
+		listCount++;
 	}
 
 	int searchNodes(T searchValue)
@@ -210,8 +245,8 @@ public:
 	int getListSize()
 	{
 		// return the number of items in the list
-		return ListSize.value;  // this uses a dummy node's value to track the size
-		//return listCount;  // this method uses the int listCount variable to track the list size
+		//return ListSize.value;  // this uses a dummy node's value to track the size
+		return listCount;  // this method uses the int listCount variable to track the list size
 	}
 
 };
@@ -223,7 +258,7 @@ public:
 //**************************************************
 
 template <class T>
-void LinkedList<T>::appendNode(T newValue)
+void LinkedList<T>::push_end(T newValue)
 {
 
 	DataNode<T> *newNode; // To point to a new node
@@ -250,10 +285,25 @@ void LinkedList<T>::appendNode(T newValue)
 	}
 
 	// update the list size
-	ListSize.value++;
-	//listCount++;
+	//ListSize.value++;
+	listCount++;
 }
 
+//---------------------------------------------------
+// remove the node at the end of th list
+//---------------------------------------------------
+template <class T>
+void LinkedList<T>::pop_end() {
+	DataNode<T> *nextNode; // To point to next node
+	DataNode<T> *nodePtr; // To move through the list
+	nodePtr = head;
+	nextNode = nodePtr->next;
+	while (nextNode->next) {
+		nodePtr = nextNode;
+		nextNode = nodePtr->next;
+	}
+	nodePtr->next = nullptr;
+}
 //***************************************************
 // displayList shows the value stored in each node *
 // of the linked list pointed to by head. *
@@ -262,6 +312,7 @@ void LinkedList<T>::appendNode(T newValue)
 template <class T>
 void LinkedList<T>::displayList() const
 {
+	cout << "in display list\n";
 	DataNode<T> *nodePtr; // To move through the list
 
 	// Position nodePtr at the head of the list.
@@ -269,6 +320,7 @@ void LinkedList<T>::displayList() const
 
 	// While nodePtr points to a node, traverse
 	// the list.
+	cout << "runnign while loop ...\n";
 	while (nodePtr)
 	{
 		// Display the value in this node.
@@ -277,6 +329,7 @@ void LinkedList<T>::displayList() const
 		// Move to the next node.
 		nodePtr = nodePtr->next;
 	}
+	cout << "finish loop.\n";
 }
 
 //**************************************************
@@ -285,7 +338,7 @@ void LinkedList<T>::displayList() const
 //**************************************************
 
 template <class T>
-void LinkedList<T>::insertNode(T newValue)
+void LinkedList<T>::insertNodeByValue(T newValue)
 {
 	DataNode<T> *newNode; // A new node
 	DataNode<T> *nodePtr; // To traverse the list
@@ -329,8 +382,8 @@ void LinkedList<T>::insertNode(T newValue)
 		}
 	}
 	// update the list size
-	ListSize.value++;
-	//listCount++;
+	//ListSize.value++;
+	listCount++;
 }
 
 //******************************************************
@@ -354,6 +407,13 @@ void LinkedList<T>::deleteNode(T searchValue)
 		nodePtr = head->next;
 		delete head;
 		head = nodePtr;
+
+		//--alex - working in last ptr
+		//track the last node in the list
+		//if(newNode->head == nullptr){
+		//	last = head;
+		//}
+
 	}
 	else
 	{
@@ -383,8 +443,8 @@ void LinkedList<T>::deleteNode(T searchValue)
 		}
 	}
 	// update the list size
-	ListSize.value--;
-	//listCount--;
+	//ListSize.value--;
+	listCount--;
 }
 
 //**************************************************
