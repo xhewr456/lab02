@@ -69,6 +69,7 @@ protected:
 		// deletes the first item in the list, deleteNode() will update the head pointer to point to the new first item
 		// then returns a refernce to the updated head pointer
 		this->deleteNode(head->value);
+		findLastNode();
 		return head;
 	}
 public:
@@ -121,10 +122,10 @@ public:
 					nextPtr = nodePtr->next;
 					nodePtr = nextPtr;
 				}
+				last = nodePtr;
 			}
 
 		}
-		//cout << last->value;
 	}
 	void emptyTheList()
 	{
@@ -161,7 +162,7 @@ public:
 		newNode = new DataNode<T>(newValue);
 
 		// If there are no nodes in the list make newNode the first node.
-		//  if head does not exist, head will now point to the memory address of newNode
+		// if head does not exist, head will now point to the memory address of newNode
 		if (!head)
 			head = newNode;
 
@@ -194,6 +195,7 @@ public:
 		}
 		// update list count 
 		//ListSize.value++;
+		findLastNode();
 		listCount++;
 	}
 
@@ -286,6 +288,7 @@ void LinkedList<T>::push_end(T newValue)
 
 	// update the list size
 	//ListSize.value++;
+	findLastNode();
 	listCount++;
 }
 
@@ -312,7 +315,6 @@ void LinkedList<T>::pop_end() {
 template <class T>
 void LinkedList<T>::displayList() const
 {
-	cout << "in display list\n";
 	DataNode<T> *nodePtr; // To move through the list
 
 	// Position nodePtr at the head of the list.
@@ -320,7 +322,6 @@ void LinkedList<T>::displayList() const
 
 	// While nodePtr points to a node, traverse
 	// the list.
-	cout << "runnign while loop ...\n";
 	while (nodePtr)
 	{
 		// Display the value in this node.
@@ -329,7 +330,6 @@ void LinkedList<T>::displayList() const
 		// Move to the next node.
 		nodePtr = nodePtr->next;
 	}
-	cout << "finish loop.\n";
 }
 
 //**************************************************
@@ -383,6 +383,7 @@ void LinkedList<T>::insertNodeByValue(T newValue)
 	}
 	// update the list size
 	//ListSize.value++;
+	findLastNode();
 	listCount++;
 }
 
@@ -407,13 +408,6 @@ void LinkedList<T>::deleteNode(T searchValue)
 		nodePtr = head->next;
 		delete head;
 		head = nodePtr;
-
-		//--alex - working in last ptr
-		//track the last node in the list
-		//if(newNode->head == nullptr){
-		//	last = head;
-		//}
-
 	}
 	else
 	{
@@ -444,6 +438,7 @@ void LinkedList<T>::deleteNode(T searchValue)
 	}
 	// update the list size
 	//ListSize.value--;
+	findLastNode();
 	listCount--;
 }
 
